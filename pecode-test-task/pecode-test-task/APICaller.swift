@@ -14,26 +14,67 @@ final class APICaller {
         static let baseURL = "https://newsapi.org/v2"
     }
     
+    enum APIError: Error {
+        case noData
+    }
+    
     private init() {}
     
-    public func getTopStories(completion: @escaping (Result<[Article], Error>) -> Void) {
-        guard let url = URL(string: "\(Constants.baseURL)/top-headlines?country=US&apiKey=\(Constants.apiKey)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {
-            return
-        }
-        
+    private func makeRequest<T: Decodable, U: Decodable>(
+        url: URL,
+        responseType: U.Type,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(.failure(error))
-            } else if let data = data {
-                do {
-                    let result = try JSONDecoder().decode(APIResponse.self, from: data)
-                    completion(.success(result.articles))
-                } catch {
-                    completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(APIError.noData))
+                return
+            }
+            
+            do {
+                let decodedObject = try JSONDecoder().decode(responseType, from: data)
+                if let articles = (decodedObject as? APIResponse)?.articles as? T {
+                    completion(.success(articles))
+                } else {
+                    throw DecodingError.dataCorrupted(
+                        .init(codingPath: [], debugDescription: "Failed to decode articles")
+                    )
                 }
+            } catch {
+                completion(.failure(error))
             }
         }
         task.resume()
     }
+    
+    private func makeURL(endpoint: String, parameters: [String: String]) -> URL {
+        var components = URLComponents(string: Constants.baseURL + endpoint)!
+        components.queryItems = parameters.map { key, value in
+            URLQueryItem(name: key, value: value)
+        }
+        components.queryItems?.append(URLQueryItem(name: "apiKey", value: Constants.apiKey))
+        return components.url!
+    }
+    
+    public func search(with query: String, completion: @escaping (Result<[Article], Error>) -> Void) {
+        guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        let url = makeURL(endpoint: "/everything", parameters: ["sortedBy": "popularity", "q": query])
+        makeRequest(url: url, responseType: APIResponse.self, completion: completion)
+    }
+    
+    public func getTopStories(completion: @escaping (Result<[Article], Error>) -> Void) {
+        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US"])
+        makeRequest(url: url, responseType: APIResponse.self, completion: completion)
+    }
+    
+    
 }
 
