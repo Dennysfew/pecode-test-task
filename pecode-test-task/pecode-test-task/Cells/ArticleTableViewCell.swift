@@ -54,6 +54,17 @@ class ArticleTableViewCell: UITableViewCell {
         }
     }
     
+    func configure(savedArticle: SavedArticle) {
+        articleTitleLb.text = savedArticle.title
+        articleDescriptionLb.text = savedArticle.descriptionText
+        articleSourceLb.text = savedArticle.sourceName
+        articleAuthorLb.text = savedArticle.author
+        articleImage.kf.setImage(with: URL(string: savedArticle.urlToImage ?? ""))
+        
+        // Always show the filled heart for saved articles
+        heartIv.image = UIImage(systemName: "heart.fill")
+    }
+    
     @objc func heartIconTapped() {
         guard let article = self.article else {
             return
