@@ -13,6 +13,7 @@
 		94523B602ACE978900F0EE37 /* SourcesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B5F2ACE978900F0EE37 /* SourcesButton.swift */; };
 		94523B642ACECD8C00F0EE37 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B632ACECD8C00F0EE37 /* CoreDataStack.swift */; };
 		94523B672ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94523B652ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodeld */; };
+		94523B692ACED50B00F0EE37 /* SavedArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B682ACED50B00F0EE37 /* SavedArticlesViewController.swift */; };
 		9472D26D2ACC611A0069C83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D26C2ACC611A0069C83A /* AppDelegate.swift */; };
 		9472D26F2ACC611A0069C83A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D26E2ACC611A0069C83A /* SceneDelegate.swift */; };
 		9472D2712ACC611A0069C83A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D2702ACC611A0069C83A /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		94523B5F2ACE978900F0EE37 /* SourcesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesButton.swift; sourceTree = "<group>"; };
 		94523B632ACECD8C00F0EE37 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		94523B662ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedArticleDataModel.xcdatamodel; sourceTree = "<group>"; };
+		94523B682ACED50B00F0EE37 /* SavedArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArticlesViewController.swift; sourceTree = "<group>"; };
 		9472D2692ACC611A0069C83A /* pecode-test-task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pecode-test-task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9472D26C2ACC611A0069C83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9472D26E2ACC611A0069C83A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				9472D26E2ACC611A0069C83A /* SceneDelegate.swift */,
 				9472D2702ACC611A0069C83A /* ViewController.swift */,
 				9472D2722ACC611A0069C83A /* Main.storyboard */,
+				94523B682ACED50B00F0EE37 /* SavedArticlesViewController.swift */,
 				9472D2752ACC611C0069C83A /* Assets.xcassets */,
 				9472D2772ACC611C0069C83A /* LaunchScreen.storyboard */,
 				9472D27A2ACC611C0069C83A /* Info.plist */,
@@ -261,6 +264,7 @@
 				9472D2882ACD57ED0069C83A /* ArticleTableViewCell.swift in Sources */,
 				94523B5E2ACE96FD00F0EE37 /* CountryButton.swift in Sources */,
 				9472D2812ACD46560069C83A /* APICaller.swift in Sources */,
+				94523B692ACED50B00F0EE37 /* SavedArticlesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
