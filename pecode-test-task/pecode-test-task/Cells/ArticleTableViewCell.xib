@@ -27,7 +27,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some awesome title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gm8-KE-edc">
-                                <rect key="frame" x="113" y="8" width="196" height="40"/>
+                                <rect key="frame" x="113" y="8" width="167" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="fBS-Cz-7b5"/>
                                 </constraints>
@@ -53,6 +53,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hWF-GN-P2l">
+                                <rect key="frame" x="295" y="7" width="25" height="22"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.63921568630000003" green="0.63921568630000003" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="KEc-qb-Ce1"/>
+                                    <constraint firstAttribute="height" constant="25" id="wAE-mi-Maz"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="0.50403559602649006" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -60,14 +69,16 @@
                             <constraint firstAttribute="trailing" secondItem="3Gp-lj-kbZ" secondAttribute="trailing" constant="20" id="IFr-lt-Rwi"/>
                             <constraint firstItem="gm8-KE-edc" firstAttribute="leading" secondItem="vk8-Pb-eZV" secondAttribute="leading" id="KZT-bN-1gd"/>
                             <constraint firstItem="gm8-KE-edc" firstAttribute="top" secondItem="f8S-1u-to0" secondAttribute="top" constant="8" id="Lvg-L1-5Ao"/>
+                            <constraint firstItem="hWF-GN-P2l" firstAttribute="leading" secondItem="gm8-KE-edc" secondAttribute="trailing" constant="15" id="NjN-vH-aLV"/>
                             <constraint firstItem="3Gp-lj-kbZ" firstAttribute="centerY" secondItem="xHg-U5-2iV" secondAttribute="centerY" id="PJU-96-d0a"/>
-                            <constraint firstAttribute="trailing" secondItem="gm8-KE-edc" secondAttribute="trailing" constant="16" id="QXm-pz-iAP"/>
                             <constraint firstItem="TnK-40-2A0" firstAttribute="centerY" secondItem="f8S-1u-to0" secondAttribute="centerY" id="Sxd-9F-AqN"/>
                             <constraint firstItem="gm8-KE-edc" firstAttribute="leading" secondItem="TnK-40-2A0" secondAttribute="trailing" constant="25" id="VDW-sX-AfV"/>
                             <constraint firstItem="TnK-40-2A0" firstAttribute="leading" secondItem="f8S-1u-to0" secondAttribute="leading" constant="8" id="VG9-l0-1eI"/>
                             <constraint firstItem="vk8-Pb-eZV" firstAttribute="top" secondItem="gm8-KE-edc" secondAttribute="bottom" constant="8" id="bXI-xT-ZQh"/>
                             <constraint firstItem="xHg-U5-2iV" firstAttribute="leading" secondItem="vk8-Pb-eZV" secondAttribute="leading" id="lns-nn-dXb"/>
                             <constraint firstAttribute="bottom" secondItem="xHg-U5-2iV" secondAttribute="bottom" constant="8" id="nys-Pc-PAP"/>
+                            <constraint firstItem="hWF-GN-P2l" firstAttribute="top" secondItem="f8S-1u-to0" secondAttribute="top" constant="5" id="osx-Mf-PMU"/>
+                            <constraint firstAttribute="trailing" secondItem="hWF-GN-P2l" secondAttribute="trailing" constant="5" id="qaX-17-e65"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -87,9 +98,13 @@
                 <outlet property="articleImage" destination="TnK-40-2A0" id="Kcb-vj-Gbz"/>
                 <outlet property="articleSourceLb" destination="xHg-U5-2iV" id="XiW-3L-gpw"/>
                 <outlet property="articleTitleLb" destination="gm8-KE-edc" id="l6t-kL-FTP"/>
+                <outlet property="heartIv" destination="hWF-GN-P2l" id="XnN-Tr-ETN"/>
                 <outlet property="vContent" destination="f8S-1u-to0" id="4zI-Ao-pHz"/>
             </connections>
             <point key="canvasLocation" x="-12.977099236641221" y="45.422535211267608"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="heart" catalog="system" width="128" height="107"/>
+    </resources>
 </document>
