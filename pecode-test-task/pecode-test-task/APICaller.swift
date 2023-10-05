@@ -6,6 +6,10 @@
 //
 import Foundation
 
+enum APIError: Error {
+    case noData
+}
+
 final class APICaller {
     static let shared = APICaller()
     
@@ -13,11 +17,6 @@ final class APICaller {
         static let apiKey = "xxx" // Replace with your actual API key
         static let baseURL = "https://newsapi.org/v2"
     }
-    
-    enum APIError: Error {
-        case noData
-    }
-    
     private init() {}
     
     private func makeRequest<T: Decodable, U: Decodable>(
@@ -71,10 +70,17 @@ final class APICaller {
     }
     
     public func getTopStories(completion: @escaping (Result<[Article], Error>) -> Void) {
-        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US"])
+        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US", "sortBy": "publishedAt"])
         makeRequest(url: url, responseType: APIResponse.self, completion: completion)
     }
     
+    public func getTopStoriesFilteredByCategory(category: String, completion: @escaping (Result<[Article], Error>) -> Void) {
+        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US", "category": category])
+        makeRequest(url: url, responseType: APIResponse.self, completion: completion)
+    }
     
+    public func getTopStoriesFilteredByCountry(country: String, completion: @escaping (Result<[Article], Error>) -> Void) {
+        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "\(country)"])
+        makeRequest(url: url, responseType: APIResponse.self, completion: completion)
+    }
 }
-

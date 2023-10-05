@@ -12,7 +12,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var emptyView: UIView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet var categoryButton: CategoryButton!
+    @IBOutlet var countryButton: CountryButton!
+    @IBOutlet var sourceButton: SourcesButton!
     @IBOutlet var searchBar: UISearchBar!
+    
     var articles = [Article]() {
         didSet {
             DispatchQueue.main.async {
@@ -40,28 +44,90 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         title = "News"
         emptyView.isHidden = true
         
-        activityIndicator.startAnimating()
-        // Fetch articles from API
-        APICaller.shared.getTopStories { result in
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
-                
-                switch result {
-                case .success(let fetchedArticles):
-                    self.articles = fetchedArticles
-                case .failure(let error):
-                    self.updateEmptyViewVisibility()
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        fetchTopArticles()
         
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
         
         tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleTableViewCell")
+        
+        
+        categoryButton.articleFilterHandler = { [weak self] category in
+            // Handle category selection and fetch articles by category
+            self?.fetchArticlesByCategory(category)
+        }
+        countryButton.articleFilterHandler = { [weak self] country in
+            // Handle country selection and fetch articles by country
+            self?.fetchArticlesByCountry(country)
+        }
+        
+        sourceButton.articleFilterHandler = { [weak self] source in
+            // Handle source selection and fetch articles by source
+            self?.fetchArticlesBySource(source)
+        }
+    }
+    
+    private func fetchTopArticles() {
+        activityIndicator.startAnimating()
+        APICaller.shared.getTopStories { [weak self] result in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.activityIndicator.isHidden = true
+                
+                switch result {
+                case .success(let fetchedArticles):
+                    self?.articles = fetchedArticles
+                case .failure(let error):
+                    self?.updateEmptyViewVisibility()
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func fetchArticlesBySource(_ sourceName: String) {
+        let filteredArticles = articles.filter { $0.source.name == sourceName }
+        let sortedArticles = filteredArticles.sorted { $0.title < $1.title }
+        
+        self.articles = sortedArticles
+        self.updateEmptyViewVisibility()
+    }
+    
+    private func fetchArticlesByCountry(_ country: String) {
+        activityIndicator.startAnimating()
+        APICaller.shared.getTopStoriesFilteredByCountry(country: country) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.activityIndicator.isHidden = true
+                
+                switch result {
+                case .success(let fetchedArticles):
+                    self?.articles = fetchedArticles
+                case .failure(let error):
+                    self?.updateEmptyViewVisibility()
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func fetchArticlesByCategory(_ category: String) {
+        activityIndicator.startAnimating()
+        APICaller.shared.getTopStoriesFilteredByCategory(category: category) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.activityIndicator.isHidden = true
+                
+                switch result {
+                case .success(let fetchedArticles):
+                    self?.articles = fetchedArticles
+                case .failure(let error):
+                    self?.updateEmptyViewVisibility()
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     // MARK: - UITableViewDataSource
@@ -119,5 +185,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.emptyView.isHidden = !self.articles.isEmpty
             }
         }
+    }
+    @IBAction func didClearBtTapped(_ sender: Any) {
+        // Clear the search bar text
+        searchBar.text = ""
+        
+        // Clear the featured articles
+        featuredArticles.removeAll()
+        
+        // Fetch the original articles
+        fetchTopArticles()
     }
 }

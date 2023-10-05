@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" barStyle="black" searchBarStyle="minimal" placeholder="Search" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wQ-MV-pgm">
+                            <searchBar contentMode="redraw" ambiguous="YES" barStyle="black" searchBarStyle="minimal" placeholder="Search" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wQ-MV-pgm">
                                 <rect key="frame" x="16" y="113" width="361" height="56"/>
                                 <color key="tintColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="barTintColor" systemColor="systemOrangeColor"/>
@@ -26,7 +26,7 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="KAG-qz-gg0">
-                                <rect key="frame" x="8" y="185" width="377" height="633"/>
+                                <rect key="frame" x="8" y="271" width="377" height="547"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="vxx-vf-MLj">
@@ -35,11 +35,11 @@
                                 <color key="color" red="0.62189841810000002" green="0.17903979319999999" blue="0.36646983420000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" id="gwZ-se-8LB">
-                                <rect key="frame" x="8" y="185" width="377" height="598"/>
+                                <rect key="frame" x="8" y="271" width="377" height="512"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, no articles found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Owg-2g-q1X">
-                                        <rect key="frame" x="83.666666666666686" y="263.33333333333331" width="210" height="71.666666666666686"/>
+                                        <rect key="frame" x="83.666666666666686" y="220.33333333333329" width="210" height="71.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="210" id="Lzu-Hs-tuG"/>
                                         </constraints>
@@ -54,25 +54,75 @@
                                     <constraint firstItem="Owg-2g-q1X" firstAttribute="centerY" secondItem="gwZ-se-8LB" secondAttribute="centerY" id="mR6-Zi-VVh"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Filters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nwt-yf-a6A">
+                                <rect key="frame" x="16" y="172" width="35" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARo-Zw-524" customClass="CategoryButton" customModule="pecode_test_task" customModuleProvider="target">
+                                <rect key="frame" x="16" y="197" width="95" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Category"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xBo-1j-WWx"/>
+                                    <action selector="categoryButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SJM-Ma-NIm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jY-NP-m4X" customClass="CountryButton" customModule="pecode_test_task" customModuleProvider="target">
+                                <rect key="frame" x="136" y="197" width="85" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Country"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iu0-hX-jq9" customClass="SourcesButton" customModule="pecode_test_task" customModuleProvider="target">
+                                <rect key="frame" x="246" y="197" width="87" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Sources"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaT-UB-fXI">
+                                <rect key="frame" x="343" y="197" width="40" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="HW3-vl-MjU"/>
+                                    <constraint firstAttribute="width" constant="40" id="seW-yi-wID"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" image="clear" catalog="system"/>
+                                <connections>
+                                    <action selector="didClearBtTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LVQ-pF-irY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6wQ-MV-pgm" secondAttribute="trailing" constant="16" id="00O-QG-CSE"/>
-                            <constraint firstItem="KAG-qz-gg0" firstAttribute="top" secondItem="6wQ-MV-pgm" secondAttribute="bottom" constant="16" id="3cN-kD-Xd0"/>
+                            <constraint firstItem="4jY-NP-m4X" firstAttribute="centerY" secondItem="ARo-Zw-524" secondAttribute="centerY" id="5XN-DY-Cgh"/>
+                            <constraint firstItem="iu0-hX-jq9" firstAttribute="centerY" secondItem="4jY-NP-m4X" secondAttribute="centerY" id="6Ag-Gr-Q0s"/>
                             <constraint firstItem="6wQ-MV-pgm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Fdn-6h-FTt"/>
+                            <constraint firstItem="OaT-UB-fXI" firstAttribute="centerY" secondItem="iu0-hX-jq9" secondAttribute="centerY" id="Mpe-bH-SSL"/>
+                            <constraint firstItem="nwt-yf-a6A" firstAttribute="top" secondItem="6wQ-MV-pgm" secondAttribute="bottom" constant="3" id="OHk-Ed-DwR"/>
                             <constraint firstItem="6wQ-MV-pgm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="QAd-tp-EuM"/>
+                            <constraint firstItem="ARo-Zw-524" firstAttribute="leading" secondItem="nwt-yf-a6A" secondAttribute="leading" id="RNk-UD-kKU"/>
+                            <constraint firstItem="nwt-yf-a6A" firstAttribute="leading" secondItem="6wQ-MV-pgm" secondAttribute="leading" id="Rca-Ze-0WC"/>
+                            <constraint firstItem="KAG-qz-gg0" firstAttribute="top" secondItem="ARo-Zw-524" secondAttribute="bottom" constant="25" id="XFJ-hu-VOe"/>
+                            <constraint firstItem="ARo-Zw-524" firstAttribute="top" secondItem="nwt-yf-a6A" secondAttribute="bottom" constant="10" id="YxE-8n-n2N"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KAG-qz-gg0" secondAttribute="bottom" id="bSh-Ns-8Gk"/>
-                            <constraint firstItem="gwZ-se-8LB" firstAttribute="top" secondItem="6wQ-MV-pgm" secondAttribute="bottom" constant="16" id="ePO-4p-IC5"/>
+                            <constraint firstItem="iu0-hX-jq9" firstAttribute="leading" secondItem="4jY-NP-m4X" secondAttribute="trailing" constant="25" id="kx3-Oj-ErT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KAG-qz-gg0" secondAttribute="trailing" constant="8" id="p75-jL-A4d"/>
+                            <constraint firstItem="gwZ-se-8LB" firstAttribute="top" secondItem="ARo-Zw-524" secondAttribute="bottom" constant="25" id="v91-rP-Kbo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OaT-UB-fXI" secondAttribute="trailing" constant="10" id="w59-Gf-Ciu"/>
                             <constraint firstItem="KAG-qz-gg0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="wWr-sk-m5K"/>
+                            <constraint firstItem="4jY-NP-m4X" firstAttribute="leading" secondItem="ARo-Zw-524" secondAttribute="trailing" constant="25" id="yhO-YW-cXU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jzA-Ce-Nrt"/>
                     <connections>
                         <outlet property="activityIndicator" destination="vxx-vf-MLj" id="t3b-zt-T8U"/>
+                        <outlet property="categoryButton" destination="ARo-Zw-524" id="OZo-rB-VFc"/>
+                        <outlet property="countryButton" destination="4jY-NP-m4X" id="60r-1D-vgV"/>
                         <outlet property="emptyView" destination="gwZ-se-8LB" id="UoZ-s8-TqP"/>
                         <outlet property="searchBar" destination="6wQ-MV-pgm" id="uig-dg-hww"/>
+                        <outlet property="sourceButton" destination="iu0-hX-jq9" id="IIE-9c-z9f"/>
                         <outlet property="tableView" destination="KAG-qz-gg0" id="uYE-Pc-zEC"/>
                     </connections>
                 </viewController>
@@ -100,6 +150,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="clear" catalog="system" width="128" height="114"/>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
