@@ -8,9 +8,13 @@
 import UIKit
 
 class CountryButton: UIButton {
+    // MARK: - Properties
+    
     var articleFilterHandler: ((String) -> Void)?
     var countries: [String] = []
     var defaultCategory: String = "Country"
+    
+    // MARK: - Initializers
     
     init(frame: CGRect, countries: [String], articleFilterHandler: @escaping (String) -> Void) {
         super.init(frame: frame)
@@ -27,6 +31,8 @@ class CountryButton: UIButton {
         setupDropdownMenu()
     }
     
+    // MARK: - Private Methods
+    
     private func configureButton() {
         setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -38,6 +44,7 @@ class CountryButton: UIButton {
     }
     
     private func setupDropdownMenu() {
+        // Create UIActions for each country
         let menuItems = countries.map { country in
             UIAction(title: country) { [weak self] _ in
                 self?.setTitle(country, for: .normal)
@@ -46,12 +53,15 @@ class CountryButton: UIButton {
         }
         
         let countryMenu = UIMenu(title: "Choose Country", children: menuItems)
+        
         menu = countryMenu
         showsMenuAsPrimaryAction = true
     }
     
+    // MARK: - Public Method
+    
     func resetToDefault() {
-        // Reset the selected category to the default value
+        // Reset the selected country to the default value and trigger the filter handler
         setTitle(defaultCategory, for: .normal)
         articleFilterHandler?("US")
     }

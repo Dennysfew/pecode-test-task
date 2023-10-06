@@ -8,9 +8,13 @@
 import UIKit
 
 class CategoryButton: UIButton {
+    // MARK: - Properties
+    
     var articleFilterHandler: ((String) -> Void)?
     var categories: [String] = []
     var defaultCategory: String = "Category"
+    
+    // MARK: - Initializers
     
     init(frame: CGRect, categories: [String], articleFilterHandler: @escaping (String) -> Void) {
         super.init(frame: frame)
@@ -27,6 +31,8 @@ class CategoryButton: UIButton {
         setupDropdownMenu()
     }
     
+    // MARK: - Private Methods
+    
     private func configureButton() {
         setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -38,6 +44,7 @@ class CategoryButton: UIButton {
     }
     
     private func setupDropdownMenu() {
+        // Create UIActions for each category
         let menuItems = categories.map { category in
             UIAction(title: category) { [weak self] _ in
                 self?.setTitle(category, for: .normal)
@@ -46,14 +53,16 @@ class CategoryButton: UIButton {
         }
         
         let categoryMenu = UIMenu(title: "Choose Category", children: menuItems)
+        
         menu = categoryMenu
         showsMenuAsPrimaryAction = true
     }
     
+    // MARK: - Public Method
+    
     func resetToDefault() {
-        // Reset the selected category to the default value
+        // Reset the selected category to the default value and trigger the filter handler
         setTitle(defaultCategory, for: .normal)
         articleFilterHandler?("general")
     }
 }
-

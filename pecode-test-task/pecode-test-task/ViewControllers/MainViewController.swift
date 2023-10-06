@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  pecode-test-task
 //
 //  Created by Dennys Izhyk on 03.10.2023.
@@ -7,7 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+    
+    // MARK: - Outlets
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var emptyView: UIView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -16,6 +19,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var countryButton: CountryButton!
     @IBOutlet var sourceButton: SourcesButton!
     @IBOutlet var searchBar: UISearchBar!
+    
+    // MARK: - Properties
     
     let refreshControl = UIRefreshControl()
     var isLoadedAdditionalData = false
@@ -42,56 +47,73 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return !searchBar.text!.isEmpty
     }
     
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "News"
         emptyView.isHidden = true
         
+        setupUI()
+        setupTableView()
+        setupSearchBar()
+        setupRefreshControl()
         fetchTopArticles()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        searchBar.delegate = self
-        
-        tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleTableViewCell")
-        
-        
+    }
+    
+    // MARK: - Setup Functions
+    
+    private func setupUI() {
         categoryButton.articleFilterHandler = { [weak self] category in
-            // Handle category selection and fetch articles by category
             self?.fetchArticlesByCategory(category)
         }
+        
         countryButton.articleFilterHandler = { [weak self] country in
-            // Handle country selection and fetch articles by country
             self?.fetchArticlesByCountry(country)
         }
         
         sourceButton.articleFilterHandler = { [weak self] source in
-            // Handle source selection and fetch articles by source
             self?.fetchArticlesBySource(source)
         }
-        
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleTableViewCell")
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
+    }
+    
+    private func setupRefreshControl() {
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         refreshControl.tintColor = .purple
         tableView.addSubview(refreshControl)
     }
     
-    @objc func refreshData() {
-        // Perform a new API request here to fetch updated data
+    // MARK: - Data Refresh
+    
+    @objc private func refreshData() {
         fetchTopArticles()
         reloadData()
     }
     
-    func reloadData() {
-        self.refreshControl.endRefreshing()
+    private func reloadData() {
+        refreshControl.endRefreshing()
         UIView.performWithoutAnimation {
-            self.tableView.reloadData()
+            tableView.reloadData()
         }
     }
+    
+    // MARK: - Top Article Fetching
     
     private func fetchTopArticles() {
         isLoadedAdditionalData = false
         activityIndicator.startAnimating()
         
+        // Used First Page Of API Data
         APICaller.shared.getTopStories(page: 1) { [weak self] result in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
@@ -108,10 +130,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // MARK: - Pagination
+    
     func scrollViewDidScroll (_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position > (tableView.contentSize.height-100-scrollView.frame.size.height) {
-            // fetch more data
+            // Fetch More Fata
             loadNextPage()
         }
     }
@@ -123,14 +147,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         isLoadedAdditionalData = true
         
-        self.tableView.tableFooterView = createSpinenrFooter ()
-        // Fetch more articles for the next page
+        tableView.tableFooterView = createSpinnerFooter()
+        
+        // Used Second Page Of API Data
         APICaller.shared.getTopStories(page: 2) { [weak self] result in
             DispatchQueue.main.async {
-                
                 self?.tableView.tableFooterView = nil
+                
                 switch result {
-                    
                 case .success(let fetchedArticles):
                     self?.articles.append(contentsOf: fetchedArticles)
                     self?.tableView.reloadData()
@@ -142,8 +166,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    private func createSpinenrFooter() -> UIView {
-        let footerView = UIView( frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         let spinner = UIActivityIndicatorView()
         spinner.center = footerView.center
         spinner.color = .purple
@@ -151,6 +175,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         spinner.startAnimating()
         return footerView
     }
+    
+    // MARK: - Filtering Functions
     
     private func fetchArticlesBySource(_ sourceName: String) {
         let filteredArticles = articles.filter { $0.source.name == sourceName }
@@ -210,18 +236,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleTableViewCell", for: indexPath) as! ArticleTableViewCell
         let article = isSearching ? featuredArticles[indexPath.row] : articles[indexPath.row]
         
-        // Configure the cell with the article data
         cell.configure(article: article)
         
         return cell
     }
+    
+    // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let article = isSearching ? featuredArticles[indexPath.row] : articles[indexPath.row]
         
         let newsArticleVC = NewsArticleViewController()
         
-        // Set the articleURL property of the NewsArticleViewController to the selected article's URL
         if let articleURL = URL(string: article.url ?? "") {
             newsArticleVC.articleURL = articleURL
         }
@@ -233,7 +259,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let trimmedText = searchText.trimmingCharacters(in: .whitespaces)
         guard !trimmedText.isEmpty else {
-            // Clear the filtered articles if the search text is empty
             featuredArticles.removeAll()
             tableView.reloadData()
             return
@@ -252,22 +277,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
     }
+    
+    // MARK: - Actions
+    
     @IBAction func didClearBtTapped(_ sender: Any) {
-        // Clear the search bar text
         searchBar.text = ""
-        
-        // Clear the featured articles
         featuredArticles.removeAll()
-        
-        // Fetch the original articles
         fetchTopArticles()
-        
-        // Reset filter buttons to their default values
         resetFilterButtons()
     }
     
     private func resetFilterButtons() {
-        // Set the selected values of filter buttons to their defaults
         categoryButton.resetToDefault()
         countryButton.resetToDefault()
         sourceButton.resetToDefault()
@@ -276,10 +296,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private func updateEmptyViewVisibility() {
         DispatchQueue.main.async {
             if self.isSearching {
-                // If searching is active, show the empty view if featuredArticles is empty
                 self.emptyView.isHidden = !self.featuredArticles.isEmpty
             } else {
-                // If not searching, show the empty view if articles is empty
                 self.emptyView.isHidden = !self.articles.isEmpty
             }
         }

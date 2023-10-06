@@ -11,6 +11,8 @@ import CoreData
 
 class ArticleTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
     @IBOutlet var vContent: UIView!
     @IBOutlet var articleImage: UIImageView!
     @IBOutlet var articleTitleLb: UILabel!
@@ -19,19 +21,33 @@ class ArticleTableViewCell: UITableViewCell {
     @IBOutlet var articleAuthorLb: UILabel!
     @IBOutlet var heartIv: UIImageView!
     
+    // MARK: - Properties
+    
     var article: Article?
+    
+    // MARK: - View Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupUI()
+        addHeartIconTapGesture()
+    }
+    
+    // MARK: - Setup Functions
+    
+    private func setupUI() {
         selectionStyle = .none
-        self.vContent.layer.cornerRadius = 10
-        self.articleImage.layer.cornerRadius = 5
-        
-        // Add tap gesture recognizer to the heart icon
+        vContent.layer.cornerRadius = 10
+        articleImage.layer.cornerRadius = 5
+    }
+    
+    private func addHeartIconTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(heartIconTapped))
         heartIv.isUserInteractionEnabled = true
         heartIv.addGestureRecognizer(tapGesture)
     }
+    
+    // MARK: - Configuration
     
     func configure(article: Article) {
         self.article = article
@@ -41,17 +57,8 @@ class ArticleTableViewCell: UITableViewCell {
         articleAuthorLb.text = article.author
         articleImage.kf.setImage(with: URL(string: article.urlToImage ?? ""))
         
-        // Check if the article is saved in Core Data
         let isFavorite = checkIfArticleIsFavorite(article: article)
-        
-        // Update the heart icon based on the favorite status
-        if isFavorite {
-            // Article is a favorite, show a filled heart
-            heartIv.image = UIImage(systemName: "heart.fill")
-        } else {
-            // Article is not a favorite, show an unfilled heart
-            heartIv.image = UIImage(systemName: "heart")
-        }
+        updateHeartIcon(isFavorite)
     }
     
     func configure(savedArticle: SavedArticle) {
@@ -61,39 +68,31 @@ class ArticleTableViewCell: UITableViewCell {
         articleAuthorLb.text = savedArticle.author
         articleImage.kf.setImage(with: URL(string: savedArticle.urlToImage ?? ""))
         
-        // Always show the filled heart for saved articles
-        heartIv.image = UIImage(systemName: "heart.fill")
+        updateHeartIcon(true)
     }
+    
+    // MARK: - Actions
     
     @objc func heartIconTapped() {
         guard let article = self.article else {
             return
         }
         
-        // let context = CoreDataStack.shared.viewContext // Use your custom Core Data manager
-        
         if checkIfArticleIsFavorite(article: article) {
-            // Article is already a favorite, remove it from Core Data
             deleteArticleFromCoreData(article: article)
             print("Article Deleted from Favorites: \(article.title)")
         } else {
-            // Article is not a favorite, add it to Core Data
             saveArticleToCoreData(article: article)
             print("Article Added to Favorites: \(article.title)")
         }
         
-        // Toggle the heart icon with animation
-        UIView.transition(with: heartIv, duration: 0.3, options: .transitionCrossDissolve, animations: {
-            if self.checkIfArticleIsFavorite(article: article) {
-                self.heartIv.image = UIImage(systemName: "heart.fill")
-            } else {
-                self.heartIv.image = UIImage(systemName: "heart")
-            }
-        }, completion: nil)
+        toggleHeartIcon()
     }
     
-    func checkIfArticleIsFavorite(article: Article) -> Bool {
-        let context = CoreDataStack.shared.viewContext // Use your custom Core Data manager
+    // MARK: - Core Data Functions
+    
+    private func checkIfArticleIsFavorite(article: Article) -> Bool {
+        let context = CoreDataStack.shared.viewContext
         let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "url == %@", article.url ?? "")
         
@@ -106,7 +105,7 @@ class ArticleTableViewCell: UITableViewCell {
         }
     }
     
-    func saveArticleToCoreData(article: Article) {
+    private func saveArticleToCoreData(article: Article) {
         let context = CoreDataStack.shared.viewContext
         let savedArticle = SavedArticle(context: context)
         savedArticle.title = article.title
@@ -120,7 +119,7 @@ class ArticleTableViewCell: UITableViewCell {
         CoreDataStack.shared.saveContext()
     }
     
-    func deleteArticleFromCoreData(article: Article) {
+    private func deleteArticleFromCoreData(article: Article) {
         let context = CoreDataStack.shared.viewContext
         let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "url == %@", article.url ?? "")
@@ -134,5 +133,19 @@ class ArticleTableViewCell: UITableViewCell {
         } catch {
             print("Error deleting from Core Data: \(error)")
         }
+    }
+    
+    // MARK: - UI Updates
+    
+    private func toggleHeartIcon() {
+        UIView.transition(with: heartIv, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            let isFavorite = self.checkIfArticleIsFavorite(article: self.article!)
+            self.updateHeartIcon(isFavorite)
+        }, completion: nil)
+    }
+    
+    private func updateHeartIcon(_ isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        heartIv.image = UIImage(systemName: imageName)
     }
 }

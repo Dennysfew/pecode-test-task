@@ -10,11 +10,19 @@ import CoreData
 
 class SavedArticlesViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet var tableView: UITableView!
+    
+    // MARK: - Properties
+    
     var savedArticles: [SavedArticle] = []
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Saved Articles"
         setupTableView()
         fetchSavedArticles()
     }
@@ -24,25 +32,29 @@ class SavedArticlesViewController: UIViewController {
         fetchSavedArticles()
     }
     
+    // MARK: - Setup Functions
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleTableViewCell")
     }
     
+    // MARK: - Data Fetching
+    
     private func fetchSavedArticles() {
         let context = CoreDataStack.shared.viewContext
         
         do {
-            // Fetch saved articles from Core Data
             savedArticles = try context.fetch(SavedArticle.fetchRequest())
-            
             tableView.reloadData()
         } catch {
             print("Error fetching saved articles: \(error)")
         }
     }
 }
+
+// MARK: - UITableViewDataSource and UITableViewDelegate
 
 extension SavedArticlesViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -57,11 +69,9 @@ extension SavedArticlesViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleTableViewCell", for: indexPath) as! ArticleTableViewCell
         
-        // Configure the cell with the saved article
         let savedArticle = savedArticles[indexPath.row]
         cell.configure(savedArticle: savedArticle)
         
         return cell
     }
 }
-

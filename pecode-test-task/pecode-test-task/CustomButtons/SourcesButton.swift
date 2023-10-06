@@ -8,9 +8,13 @@
 import UIKit
 
 class SourcesButton: UIButton {
+    // MARK: - Properties
+    
     var articleFilterHandler: ((String) -> Void)?
     var sources: [String] = []
     var defaultCategory: String = "Source"
+    
+    // MARK: - Initializers
     
     init(frame: CGRect, sources: [String], articleFilterHandler: @escaping (String) -> Void) {
         super.init(frame: frame)
@@ -27,6 +31,8 @@ class SourcesButton: UIButton {
         setupDropdownMenu()
     }
     
+    // MARK: - Private Methods
+    
     private func configureButton() {
         setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -38,6 +44,7 @@ class SourcesButton: UIButton {
     }
     
     private func setupDropdownMenu() {
+        // Create UIActions for each source
         let menuItems = sources.map { source in
             UIAction(title: source) { [weak self] _ in
                 self?.setTitle(source, for: .normal)
@@ -46,12 +53,15 @@ class SourcesButton: UIButton {
         }
         
         let sourceMenu = UIMenu(title: "Choose Source", children: menuItems)
+        
         menu = sourceMenu
         showsMenuAsPrimaryAction = true
     }
     
+    // MARK: - Public Method
+    
     func resetToDefault() {
-        // Reset the selected category to the default value
+        // Reset the selected source to the default value
         setTitle(defaultCategory, for: .normal)
     }
 }
