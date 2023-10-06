@@ -205,6 +205,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
     }
+    @IBAction func didClearBtTapped(_ sender: Any) {
+        // Clear the search bar text
+        searchBar.text = ""
+        
+        // Clear the featured articles
+        featuredArticles.removeAll()
+        
+        // Fetch the original articles
+        fetchTopArticles()
+        
+        // Reset filter buttons to their default values
+        resetFilterButtons()
+    }
+    
+    private func resetFilterButtons() {
+        // Set the selected values of filter buttons to their defaults
+        categoryButton.resetToDefault()
+        countryButton.resetToDefault()
+        sourceButton.resetToDefault()
+    }
     
     private func updateEmptyViewVisibility() {
         DispatchQueue.main.async {
@@ -216,15 +236,5 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.emptyView.isHidden = !self.articles.isEmpty
             }
         }
-    }
-    @IBAction func didClearBtTapped(_ sender: Any) {
-        // Clear the search bar text
-        searchBar.text = ""
-        
-        // Clear the featured articles
-        featuredArticles.removeAll()
-        
-        // Fetch the original articles
-        fetchTopArticles()
     }
 }
