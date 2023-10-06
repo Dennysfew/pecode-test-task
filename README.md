@@ -15,11 +15,11 @@ This repository contains the source code for a News Viewer iOS app that allows u
 4. **Favourite Button**: Each UITableViewCell has a favorite button to add articles to the favorite list. Data is stored using either CoreData or Realm.
 5. **Saved Articles**: Users can view their saved articles in a separate UIViewController.
 6. **UIRefreshControl**: Implemented for pull-to-refresh functionality.
-7. **Loading Cell**: A loading cell is used for pagination, eliminating the need for a separate button.
+7. **Loading View**: A loading view is used for pagination
 
 ### Main UIViewController Features
 
-1. **Sorting**: Users can sort articles by `publishedAt`.
+1. **Sorting**: Users have articles sorted by `publishedAt`.
 2. **Filtering**: Users can filter articles by category, country, or sources.
 3. **Search**: A search feature allows users to search for specific articles.
 4. **Pagination**: The app supports pagination for fetching more articles.
@@ -38,15 +38,6 @@ To run this project locally, follow these steps:
 
 The project uses the following dependencies:
 
-- [Alamofire](https://github.com/Alamofire/Alamofire): For network requests.
 - [Kingfisher](https://github.com/onevcat/Kingfisher): For image downloading and caching.
 
 Please ensure you have these dependencies installed and configured in your project.
-
-## Contributions
-
-Contributions to this project are welcome. If you'd like to contribute, please fork the repository, create a new branch, and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
