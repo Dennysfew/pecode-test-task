@@ -17,6 +17,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var sourceButton: SourcesButton!
     @IBOutlet var searchBar: UISearchBar!
     
+    let refreshControl = UIRefreshControl()
+    
     var articles = [Article]() {
         didSet {
             DispatchQueue.main.async {
@@ -65,6 +67,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         sourceButton.articleFilterHandler = { [weak self] source in
             // Handle source selection and fetch articles by source
             self?.fetchArticlesBySource(source)
+        }
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        refreshControl.tintColor = .purple
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refreshData() {
+        // Perform a new API request here to fetch updated data
+        fetchTopArticles()
+        reloadData()
+    }
+    
+    func reloadData() {
+        self.refreshControl.endRefreshing()
+        UIView.performWithoutAnimation {
+            self.tableView.reloadData()
         }
     }
     
@@ -152,9 +171,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let article = isSearching ? featuredArticles[indexPath.row] : articles[indexPath.row]
-
+        
         let newsArticleVC = NewsArticleViewController()
-
+        
         // Set the articleURL property of the NewsArticleViewController to the selected article's URL
         if let articleURL = URL(string: article.url ?? "") {
             newsArticleVC.articleURL = articleURL
