@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var searchBar: UISearchBar!
     
     let refreshControl = UIRefreshControl()
+    var isLoadedAdditionalData = false
     
     var articles = [Article]() {
         didSet {
@@ -88,8 +89,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     private func fetchTopArticles() {
+        isLoadedAdditionalData = false
         activityIndicator.startAnimating()
-        APICaller.shared.getTopStories { [weak self] result in
+        
+        APICaller.shared.getTopStories(page: 1) { [weak self] result in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
                 self?.activityIndicator.isHidden = true
@@ -103,6 +106,50 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             }
         }
+    }
+    
+    func scrollViewDidScroll (_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > (tableView.contentSize.height-100-scrollView.frame.size.height) {
+            // fetch more data
+            loadNextPage()
+        }
+    }
+    
+    private func loadNextPage() {
+        guard !isLoadedAdditionalData else {
+            return
+        }
+        
+        isLoadedAdditionalData = true
+        
+        self.tableView.tableFooterView = createSpinenrFooter ()
+        // Fetch more articles for the next page
+        APICaller.shared.getTopStories(page: 2) { [weak self] result in
+            DispatchQueue.main.async {
+                
+                self?.tableView.tableFooterView = nil
+                switch result {
+                    
+                case .success(let fetchedArticles):
+                    self?.articles.append(contentsOf: fetchedArticles)
+                    self?.tableView.reloadData()
+                case .failure(let error):
+                    self?.updateEmptyViewVisibility()
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func createSpinenrFooter() -> UIView {
+        let footerView = UIView( frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        spinner.color = .purple
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        return footerView
     }
     
     private func fetchArticlesBySource(_ sourceName: String) {

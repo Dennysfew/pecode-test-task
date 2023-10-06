@@ -14,7 +14,7 @@ final class APICaller {
     static let shared = APICaller()
     
     struct Constants {
-        static let apiKey = "9e4a9c2cbbb44b5b836b0e568608a8cb" // Replace with your actual API key
+        static let apiKey = "e7859973ec084fb789ee0b888890d934" // Replace with your actual API key
         static let baseURL = "https://newsapi.org/v2"
     }
     private init() {}
@@ -69,8 +69,8 @@ final class APICaller {
         makeRequest(url: url, responseType: APIResponse.self, completion: completion)
     }
     
-    public func getTopStories(completion: @escaping (Result<[Article], Error>) -> Void) {
-        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US", "sortBy": "publishedAt"])
+    public func getTopStories(page: Int, completion: @escaping (Result<[Article], Error>) -> Void) {
+        let url = makeURL(endpoint: "/top-headlines", parameters: ["country": "US", "page": "\(page)", "sortBy": "publishedAt"])
         makeRequest(url: url, responseType: APIResponse.self, completion: completion)
     }
     
