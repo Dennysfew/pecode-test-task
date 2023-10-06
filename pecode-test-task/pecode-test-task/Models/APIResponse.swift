@@ -7,9 +7,14 @@
 
 import Foundation
 
+// MARK: - APIResponse
+
 struct APIResponse: Codable {
     let articles: [Article]
 }
+
+// MARK: - Article
+
 struct Article: Codable {
     let source: Source
     let title: String
@@ -17,8 +22,11 @@ struct Article: Codable {
     let url: String?
     let urlToImage: String?
     let author: String?
-    
 }
+
+// MARK: - Source
+
 struct Source: Codable {
     let name: String
 }
+
