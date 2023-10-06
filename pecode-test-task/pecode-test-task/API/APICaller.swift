@@ -14,7 +14,7 @@ final class APICaller {
     static let shared = APICaller()
     
     struct Constants {
-        static let apiKey = "xxx" // Replace with your actual API key
+        static let apiKey = "9e4a9c2cbbb44b5b836b0e568608a8cb" // Replace with your actual API key
         static let baseURL = "https://newsapi.org/v2"
     }
     private init() {}

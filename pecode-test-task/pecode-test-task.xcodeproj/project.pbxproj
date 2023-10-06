@@ -14,6 +14,8 @@
 		94523B642ACECD8C00F0EE37 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B632ACECD8C00F0EE37 /* CoreDataStack.swift */; };
 		94523B672ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94523B652ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodeld */; };
 		94523B692ACED50B00F0EE37 /* SavedArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B682ACED50B00F0EE37 /* SavedArticlesViewController.swift */; };
+		94523B6C2ACEEAA400F0EE37 /* NewsArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94523B6A2ACEEAA400F0EE37 /* NewsArticleViewController.swift */; };
+		94523B6D2ACEEAA400F0EE37 /* NewsArticleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94523B6B2ACEEAA400F0EE37 /* NewsArticleViewController.xib */; };
 		9472D26D2ACC611A0069C83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D26C2ACC611A0069C83A /* AppDelegate.swift */; };
 		9472D26F2ACC611A0069C83A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D26E2ACC611A0069C83A /* SceneDelegate.swift */; };
 		9472D2712ACC611A0069C83A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472D2702ACC611A0069C83A /* ViewController.swift */; };
@@ -34,6 +36,8 @@
 		94523B632ACECD8C00F0EE37 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		94523B662ACECDBC00F0EE37 /* SavedArticleDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedArticleDataModel.xcdatamodel; sourceTree = "<group>"; };
 		94523B682ACED50B00F0EE37 /* SavedArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArticlesViewController.swift; sourceTree = "<group>"; };
+		94523B6A2ACEEAA400F0EE37 /* NewsArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleViewController.swift; sourceTree = "<group>"; };
+		94523B6B2ACEEAA400F0EE37 /* NewsArticleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsArticleViewController.xib; sourceTree = "<group>"; };
 		9472D2692ACC611A0069C83A /* pecode-test-task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pecode-test-task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9472D26C2ACC611A0069C83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9472D26E2ACC611A0069C83A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +75,33 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		94523B6E2ACFD74100F0EE37 /* NewsArticleController */ = {
+			isa = PBXGroup;
+			children = (
+				94523B6A2ACEEAA400F0EE37 /* NewsArticleViewController.swift */,
+				94523B6B2ACEEAA400F0EE37 /* NewsArticleViewController.xib */,
+			);
+			path = NewsArticleController;
+			sourceTree = "<group>";
+		};
+		94523B6F2ACFD76B00F0EE37 /* CustomButtons */ = {
+			isa = PBXGroup;
+			children = (
+				94523B5B2ACE927400F0EE37 /* CategoryButton.swift */,
+				94523B5D2ACE96FD00F0EE37 /* CountryButton.swift */,
+				94523B5F2ACE978900F0EE37 /* SourcesButton.swift */,
+			);
+			path = CustomButtons;
+			sourceTree = "<group>";
+		};
+		94523B702ACFD77F00F0EE37 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				9472D2802ACD46560069C83A /* APICaller.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		9472D2602ACC611A0069C83A = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +126,7 @@
 			children = (
 				9472D2852ACD57CC0069C83A /* Cells */,
 				9472D2822ACD4E370069C83A /* Models */,
+				94523B6E2ACFD74100F0EE37 /* NewsArticleController */,
 				9472D26C2ACC611A0069C83A /* AppDelegate.swift */,
 				9472D26E2ACC611A0069C83A /* SceneDelegate.swift */,
 				9472D2702ACC611A0069C83A /* ViewController.swift */,
@@ -103,10 +135,8 @@
 				9472D2752ACC611C0069C83A /* Assets.xcassets */,
 				9472D2772ACC611C0069C83A /* LaunchScreen.storyboard */,
 				9472D27A2ACC611C0069C83A /* Info.plist */,
-				9472D2802ACD46560069C83A /* APICaller.swift */,
-				94523B5B2ACE927400F0EE37 /* CategoryButton.swift */,
-				94523B5D2ACE96FD00F0EE37 /* CountryButton.swift */,
-				94523B5F2ACE978900F0EE37 /* SourcesButton.swift */,
+				94523B702ACFD77F00F0EE37 /* API */,
+				94523B6F2ACFD76B00F0EE37 /* CustomButtons */,
 				94523B632ACECD8C00F0EE37 /* CoreDataStack.swift */,
 			);
 			path = "pecode-test-task";
@@ -199,6 +229,7 @@
 			files = (
 				9472D2892ACD57ED0069C83A /* ArticleTableViewCell.xib in Resources */,
 				9472D2792ACC611C0069C83A /* LaunchScreen.storyboard in Resources */,
+				94523B6D2ACEEAA400F0EE37 /* NewsArticleViewController.xib in Resources */,
 				9472D2762ACC611C0069C83A /* Assets.xcassets in Resources */,
 				9472D2742ACC611A0069C83A /* Main.storyboard in Resources */,
 			);
@@ -260,6 +291,7 @@
 				9472D26F2ACC611A0069C83A /* SceneDelegate.swift in Sources */,
 				9472D2842ACD4E4B0069C83A /* APIResponse.swift in Sources */,
 				94523B642ACECD8C00F0EE37 /* CoreDataStack.swift in Sources */,
+				94523B6C2ACEEAA400F0EE37 /* NewsArticleViewController.swift in Sources */,
 				94523B5C2ACE927400F0EE37 /* CategoryButton.swift in Sources */,
 				9472D2882ACD57ED0069C83A /* ArticleTableViewCell.swift in Sources */,
 				94523B5E2ACE96FD00F0EE37 /* CountryButton.swift in Sources */,

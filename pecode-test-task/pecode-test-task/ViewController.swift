@@ -150,6 +150,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let article = isSearching ? featuredArticles[indexPath.row] : articles[indexPath.row]
+
+        let newsArticleVC = NewsArticleViewController()
+
+        // Set the articleURL property of the NewsArticleViewController to the selected article's URL
+        if let articleURL = URL(string: article.url ?? "") {
+            newsArticleVC.articleURL = articleURL
+        }
+        present(newsArticleVC, animated: true, completion: nil)
+    }
+    
     // MARK: - UISearchBarDelegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
